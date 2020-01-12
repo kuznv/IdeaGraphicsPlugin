@@ -6,9 +6,11 @@ import kotlin.script.experimental.api.*
 import kotlin.script.experimental.jvm.dependenciesFromClassContext
 import kotlin.script.experimental.jvm.jvm
 
+const val fileExtension = "turtle.kts"
+
 @KotlinScript(
     displayName = "Turtle script",
-    fileExtension = "turtle.kts",
+    fileExtension = fileExtension,
     compilationConfiguration = TurtleScriptCompilationConfiguration::class
 )
 abstract class TurtleScript(turtle: Turtle) : Turtle by turtle
