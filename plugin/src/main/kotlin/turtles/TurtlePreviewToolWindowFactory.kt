@@ -18,6 +18,7 @@ import com.intellij.ui.content.ContentFactory
 import com.intellij.ui.layout.panel
 import com.intellij.util.messages.MessageBusConnection
 import turtle.Turtle
+import turtle.scripting.fileExtension
 import turtle.scripting.host.TurtleScriptHost
 import turtle.swing.withTurtleGraphics
 import java.awt.Dimension
@@ -87,7 +88,7 @@ class TurtlePreview(val project: Project) {
             object : FileEditorManagerListener {
                 override fun selectionChanged(event: FileEditorManagerEvent) {
                     selectedFile = event.newEditor?.file
-                        ?.takeIf { it.name.endsWith(".turtle.kts") }
+                        ?.takeIf { it.name.endsWith(".$fileExtension") }
                     selectedFileChanged()
                 }
             }
