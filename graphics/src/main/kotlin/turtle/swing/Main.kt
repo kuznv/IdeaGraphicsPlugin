@@ -21,8 +21,7 @@ fun main() {
 }
 
 
-private
-fun Turtle.myTurtleProgram() {
+private fun Turtle.myTurtleProgram() {
     magicShape()
     repeat(4) {
         left(90)
@@ -31,8 +30,7 @@ fun Turtle.myTurtleProgram() {
 }
 
 
-private
-fun Turtle.magicShape() {
+private fun Turtle.magicShape() {
     left(180)
     forward(72)
     right(180)

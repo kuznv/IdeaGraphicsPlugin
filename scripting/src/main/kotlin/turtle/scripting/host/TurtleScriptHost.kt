@@ -11,8 +11,7 @@ import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
 
 class TurtleScriptHost {
 
-    private
-    val scriptingHost = BasicJvmScriptingHost()
+    private val scriptingHost = BasicJvmScriptingHost()
 
     /**
      * Evaluates the given Turtle script [sourceCode] against the given [turtle].

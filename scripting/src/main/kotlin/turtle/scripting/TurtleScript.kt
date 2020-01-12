@@ -15,8 +15,7 @@ const val fileExtension = "turtle.kts"
 )
 abstract class TurtleScript(turtle: Turtle) : Turtle by turtle
 
-internal
-object TurtleScriptCompilationConfiguration : ScriptCompilationConfiguration({
+internal object TurtleScriptCompilationConfiguration : ScriptCompilationConfiguration({
 
     jvm {
         dependenciesFromClassContext(

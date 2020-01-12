@@ -37,8 +37,7 @@ class TurtleGraphics(
     private val center: Point
 ) : Turtle {
 
-    private
-    val turtle = Turtle(Point(0, 0), 0.0)
+    private val turtle = Turtle(Point(0, 0), 0.0)
 
     override var penColor: Color
         get() = graphics.color
@@ -72,14 +71,12 @@ class TurtleGraphics(
 }
 
 
-private
-class Turtle(
+private class Turtle(
     private var position: Point,
     private var direction: Degrees
 ) {
 
-    private
-    var isDrawing = true
+    private var isDrawing = true
 
     fun forward(distance: Distance): Pair<Point, Point>? {
         val previousPosition = position
@@ -92,8 +89,7 @@ class Turtle(
         direction = (direction - degrees) % 360
     }
 
-    private
-    fun pointAtDistance(distance: Distance): Point =
+    private fun pointAtDistance(distance: Distance): Point =
         Math.toRadians(direction).let { radians ->
             position.run {
                 Point(

@@ -49,23 +49,17 @@ class TurtlePreviewToolWindowFactory : ToolWindowFactory {
 }
 
 
-private
-class TurtlePreview(val project: Project) {
+private class TurtlePreview(val project: Project) {
 
-    private
-    val turtleHost = TurtleScriptHost()
+    private val turtleHost = TurtleScriptHost()
 
-    private
-    val size = AtomicReference<Dimension>(Dimension(400, 400))
+    private val size = AtomicReference<Dimension>(Dimension(400, 400))
 
-    private
-    var selectedFile: VirtualFile? = selectedFile()
+    private var selectedFile: VirtualFile? = selectedFile()
 
-    private
-    val activeEditorLabel = JLabel(computeLabel())
+    private val activeEditorLabel = JLabel(computeLabel())
 
-    private
-    val canvas = JLabel("")
+    private val canvas = JLabel("")
 
     val ui = panel {
         row {
@@ -107,8 +101,7 @@ class TurtlePreview(val project: Project) {
         )
     }
 
-    private
-    fun selectedFileContentsChanged(text: String) {
+    private fun selectedFileContentsChanged(text: String) {
 
         val dimension = size.get()
 
@@ -128,8 +121,7 @@ class TurtlePreview(val project: Project) {
         }
     }
 
-    private
-    fun selectedFileChanged() {
+    private fun selectedFileChanged() {
         val message = computeLabel()
         val selectedFileText = selectedFile?.let {
             PsiManagerEx.getInstanceEx(project).findFile(it)?.let { selectedPsiFile ->
@@ -143,19 +135,15 @@ class TurtlePreview(val project: Project) {
         selectedFileContentsChanged(selectedFileText ?: "")
     }
 
-    private
-    fun computeLabel() = selectedFile?.name ?: "no file"
+    private fun computeLabel() = selectedFile?.name ?: "no file"
 
-    private
-    fun selectedFile() = FileEditorManager.getInstance(project).selectedEditor?.file
+    private fun selectedFile() = FileEditorManager.getInstance(project).selectedEditor?.file
 
-    private
-    fun psiDocumentManager() = PsiDocumentManager.getInstance(project)
+    private fun psiDocumentManager() = PsiDocumentManager.getInstance(project)
 }
 
 
-private
-inline fun <T> withContextClassLoader(classLoader: ClassLoader, block: () -> T): T {
+private inline fun <T> withContextClassLoader(classLoader: ClassLoader, block: () -> T): T {
     val previous = Thread.currentThread().contextClassLoader
     Thread.currentThread().contextClassLoader = classLoader
     try {
@@ -166,6 +154,5 @@ inline fun <T> withContextClassLoader(classLoader: ClassLoader, block: () -> T):
 }
 
 
-private
-fun invokeLater(block: () -> Unit) =
+private fun invokeLater(block: () -> Unit) =
     ApplicationManager.getApplication().invokeLater(block)
