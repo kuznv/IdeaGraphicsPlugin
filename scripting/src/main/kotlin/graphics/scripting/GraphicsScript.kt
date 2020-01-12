@@ -1,25 +1,25 @@
-package turtle.scripting
+package graphics.scripting
 
-import turtle.Turtle
+import java.awt.Graphics
 import kotlin.script.experimental.annotations.KotlinScript
 import kotlin.script.experimental.api.*
 import kotlin.script.experimental.jvm.dependenciesFromClassContext
 import kotlin.script.experimental.jvm.jvm
 
-const val fileExtension = "turtle.kts"
+const val fileExtension = "graphics.kts"
 
 @KotlinScript(
-    displayName = "Turtle script",
+    displayName = "Graphics script",
     fileExtension = fileExtension,
-    compilationConfiguration = TurtleScriptCompilationConfiguration::class
+    compilationConfiguration = GraphicsScriptCompilationConfiguration::class
 )
-abstract class TurtleScript(turtle: Turtle) : Turtle by turtle
+abstract class GraphicsScript(val graphics: Graphics)
 
-internal object TurtleScriptCompilationConfiguration : ScriptCompilationConfiguration({
+internal object GraphicsScriptCompilationConfiguration : ScriptCompilationConfiguration({
 
     jvm {
         dependenciesFromClassContext(
-            TurtleScript::class,
+            GraphicsScript::class,
             "scripting",
             "graphics",
             "kotlin-stdlib"

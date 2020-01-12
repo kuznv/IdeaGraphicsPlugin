@@ -1,4 +1,4 @@
-package turtles
+package graphics
 
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.fileEditor.FileDocumentManagerListener

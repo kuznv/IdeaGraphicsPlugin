@@ -13,8 +13,8 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="Turtle Preview" secondary="true" icon="/turtles/plus.png" anchor="right"
-                    factoryClass="turtles.TurtlePreviewToolWindowFactory"/>
+        <toolWindow id="Graphics Preview" secondary="true" icon="/graphics/plus.png" anchor="right"
+                    factoryClass="graphics.GraphicsPreviewToolWindowFactory"/>
 
     </extensions>
 

@@ -1,4 +1,4 @@
-package turtles
+package graphics
 
 import com.intellij.openapi.editor.event.DocumentEvent
 import com.intellij.openapi.editor.event.DocumentListener

@@ -1,4 +1,4 @@
-package turtles
+package graphics
 
 import com.intellij.AppTopics
 import com.intellij.openapi.application.ApplicationManager
@@ -17,10 +17,9 @@ import com.intellij.psi.impl.PsiManagerEx
 import com.intellij.ui.content.ContentFactory
 import com.intellij.ui.layout.panel
 import com.intellij.util.messages.MessageBusConnection
-import turtle.Turtle
-import turtle.scripting.fileExtension
-import turtle.scripting.host.TurtleScriptHost
-import turtle.swing.withTurtleGraphics
+import graphics.scripting.fileExtension
+import graphics.scripting.host.GraphicsScriptHost
+import graphics.swing.withGraphics
 import java.awt.Dimension
 import java.awt.event.ComponentAdapter
 import java.awt.event.ComponentEvent
@@ -29,10 +28,10 @@ import javax.swing.ImageIcon
 import javax.swing.JLabel
 
 
-class TurtlePreviewToolWindowFactory : ToolWindowFactory {
+class GraphicsPreviewToolWindowFactory : ToolWindowFactory {
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
-        TurtlePreview(project).run {
+        GraphicsPreview(project).run {
 
             val contentFactory = ContentFactory.SERVICE.getInstance()
             val content = contentFactory.createContent(ui, "", false)
@@ -49,9 +48,9 @@ class TurtlePreviewToolWindowFactory : ToolWindowFactory {
 }
 
 
-private class TurtlePreview(val project: Project) {
+private class GraphicsPreview(val project: Project) {
 
-    private val turtleHost = TurtleScriptHost()
+    private val graphicsHost = GraphicsScriptHost()
 
     private val size = AtomicReference<Dimension>(Dimension(400, 400))
 
@@ -108,11 +107,9 @@ private class TurtlePreview(val project: Project) {
         ProgressManager.getInstance().executeNonCancelableSection {
 
             val newImage =
-                withContextClassLoader(Turtle::class.java.classLoader) {
-                    withTurtleGraphics(dimension.width, dimension.height) { turtleDsl ->
-                        val result = turtleHost.eval(text, turtleDsl)
-                        println(result)
-                    }
+                withGraphics(dimension.width, dimension.height) { graphicsDsl ->
+                    val result = graphicsHost.eval(text, graphicsDsl)
+                    println(result)
                 }
 
             invokeLater {
@@ -141,18 +138,6 @@ private class TurtlePreview(val project: Project) {
 
     private fun psiDocumentManager() = PsiDocumentManager.getInstance(project)
 }
-
-
-private inline fun <T> withContextClassLoader(classLoader: ClassLoader, block: () -> T): T {
-    val previous = Thread.currentThread().contextClassLoader
-    Thread.currentThread().contextClassLoader = classLoader
-    try {
-        return block()
-    } finally {
-        Thread.currentThread().contextClassLoader = previous
-    }
-}
-
 
 private fun invokeLater(block: () -> Unit) =
     ApplicationManager.getApplication().invokeLater(block)
