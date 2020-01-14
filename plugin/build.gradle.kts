@@ -10,7 +10,6 @@ dependencies {
     testImplementation("junit", "junit", "4.12")
 }
 
-// See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version = "2019.3"
 
@@ -23,20 +22,8 @@ intellij {
 
 tasks {
 
-    patchPluginXml {
-        changeNotes(
-            """
-Add change notes here.<br>
-<em>most HTML tags may be used</em>
-"""
-        )
-    }
-}
-
-tasks {
-
     fun publicationOf(projectName: String) =
-        ":$projectName:publishLibraryPublicationToTestRepository"
+        ":$projectName:publishLibraryPublicationToMavenLocal"
 
     named("runIde") {
         dependsOn(

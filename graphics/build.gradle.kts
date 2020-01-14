@@ -4,7 +4,6 @@ plugins {
 }
 
 dependencies {
-
     implementation(kotlin("stdlib-jdk8"))
 
     testImplementation("junit:junit:4.12")
@@ -21,12 +20,6 @@ publishing {
         register<MavenPublication>("library") {
             from(components["java"])
             artifact(sourcesJar.get())
-        }
-    }
-    repositories {
-        maven {
-            name = "test"
-            url = uri("../../repository")
         }
     }
 }

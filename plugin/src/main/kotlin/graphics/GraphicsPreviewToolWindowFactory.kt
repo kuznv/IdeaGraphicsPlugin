@@ -20,12 +20,17 @@ import com.intellij.util.messages.MessageBusConnection
 import graphics.scripting.fileExtension
 import graphics.scripting.host.GraphicsScriptHost
 import graphics.swing.withGraphics
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.asCoroutineDispatcher
+import java.awt.Canvas
 import java.awt.Dimension
 import java.awt.event.ComponentAdapter
 import java.awt.event.ComponentEvent
+import java.util.concurrent.Executor
 import java.util.concurrent.atomic.AtomicReference
-import javax.swing.ImageIcon
 import javax.swing.JLabel
+import kotlin.coroutines.EmptyCoroutineContext
 
 
 class GraphicsPreviewToolWindowFactory : ToolWindowFactory {
@@ -52,13 +57,17 @@ private class GraphicsPreview(val project: Project) {
 
     private val graphicsHost = GraphicsScriptHost()
 
-    private val size = AtomicReference<Dimension>(Dimension(400, 400))
+    private val size = AtomicReference(Dimension(400, 400))
 
     private var selectedFile: VirtualFile? = selectedFile()
 
     private val activeEditorLabel = JLabel(computeLabel())
 
-    private val canvas = JLabel("")
+    private val canvas = Canvas()
+
+    private val executor = Executor { ApplicationManager.getApplication().invokeLater(it) }
+
+    private val coroutineScope = CoroutineScope(executor.asCoroutineDispatcher())
 
     val ui = panel {
         row {
@@ -105,15 +114,14 @@ private class GraphicsPreview(val project: Project) {
         val dimension = size.get()
 
         ProgressManager.getInstance().executeNonCancelableSection {
-
             val newImage =
                 withGraphics(dimension.width, dimension.height) { graphicsDsl ->
-                    val result = graphicsHost.eval(text, graphicsDsl)
+                    val result = graphicsHost.eval(text, graphicsDsl, coroutineScope)
                     println(result)
                 }
 
             invokeLater {
-                canvas.icon = ImageIcon(newImage)
+                canvas.graphics.drawImage(newImage, 0, 0, null)
             }
         }
     }

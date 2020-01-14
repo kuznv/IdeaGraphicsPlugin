@@ -3,6 +3,8 @@ package graphics.scripting
 import com.nhaarman.mockitokotlin2.inOrder
 import com.nhaarman.mockitokotlin2.mock
 import graphics.scripting.host.GraphicsScriptHost
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import org.junit.Test
 import java.awt.Color
 import java.awt.Graphics
@@ -13,6 +15,7 @@ import kotlin.script.experimental.api.valueOrThrow
 class GraphicsScriptTest {
 
     private val host = GraphicsScriptHost()
+    private val coroutineScope = CoroutineScope(Dispatchers.Unconfined)
 
     @Test
     fun compiles() {
@@ -21,7 +24,7 @@ class GraphicsScriptTest {
             """
                 println(2 + 2)
             """.trimIndent(),
-            graphics
+            graphics, coroutineScope
         )
         result.valueOr { result.reports.forEach(::println); it.valueOrThrow() }
     }
@@ -34,7 +37,7 @@ class GraphicsScriptTest {
                 graphics.color = Color.green
                 graphics.drawLine(1, 2, 3, 4)
             """.trimIndent(),
-            graphics
+            graphics, coroutineScope
         )
         result.valueOrThrow()
 
@@ -52,7 +55,7 @@ class GraphicsScriptTest {
                 color = Color.green
                 drawLine(1, 2, 3, 4)
             """.trimIndent(),
-            graphics
+            graphics, coroutineScope
         )
         result.valueOrThrow()
 

@@ -1,5 +1,6 @@
 package graphics.scripting
 
+import graphics.scripting.host.SomeTestClass
 import java.awt.Graphics
 import kotlin.script.experimental.annotations.KotlinScript
 import kotlin.script.experimental.api.*
@@ -13,16 +14,18 @@ const val fileExtension = "graphics.kts"
     fileExtension = fileExtension,
     compilationConfiguration = GraphicsScriptCompilationConfiguration::class
 )
-abstract class GraphicsScript(val graphics: Graphics)
+abstract class GraphicsScript(val graphics: Graphics, someTestClass: SomeTestClass) //: CoroutineScope by mainScope
 
 internal object GraphicsScriptCompilationConfiguration : ScriptCompilationConfiguration({
+    //implicitReceivers(Graphics::class)
 
     jvm {
         dependenciesFromClassContext(
             GraphicsScript::class,
             "scripting",
             "graphics",
-            "kotlin-stdlib"
+            "kotlin-stdlib",
+            "kotlinx-coroutines-core"
         )
     }
 

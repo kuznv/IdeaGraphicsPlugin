@@ -4,7 +4,6 @@ plugins {
 }
 
 dependencies {
-
     api(project(":graphics"))
     api(kotlin("scripting-common"))
 
@@ -30,11 +29,4 @@ publishing {
             artifact(sourcesJar.get())
         }
     }
-    repositories {
-        maven {
-            name = "test"
-            url = uri("../../repository")
-        }
-    }
 }
-

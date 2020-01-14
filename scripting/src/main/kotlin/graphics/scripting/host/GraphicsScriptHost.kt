@@ -1,11 +1,17 @@
 package graphics.scripting.host
 
 import graphics.scripting.GraphicsScript
+import graphics.scripting.SomeClass
+import kotlinx.coroutines.CoroutineScope
 import java.awt.Graphics
-import java.lang.StringBuilder
-import kotlin.script.experimental.api.*
+import kotlin.script.experimental.api.EvaluationResult
+import kotlin.script.experimental.api.ResultWithDiagnostics
+import kotlin.script.experimental.api.SourceCode
+import kotlin.script.experimental.api.constructorArgs
 import kotlin.script.experimental.host.toScriptSource
 import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
+
+class SomeTestClass
 
 class GraphicsScriptHost {
 
@@ -16,16 +22,14 @@ class GraphicsScriptHost {
      */
     fun eval(
         sourceCode: SourceCode,
-        graphics: Graphics
+        graphics: Graphics,
+        mainScope: CoroutineScope
     ): ResultWithDiagnostics<EvaluationResult> =
         scriptingHost.evalWithTemplate<GraphicsScript>(
             sourceCode,
-            compilation = {
-                implicitReceivers(Graphics::class)
-            },
             evaluation = {
-                constructorArgs(graphics)
-                implicitReceivers(graphics)
+                constructorArgs(graphics, SomeTestClass())
+                //implicitReceivers(graphics)
             }
         )
 
@@ -35,6 +39,7 @@ class GraphicsScriptHost {
      */
     fun eval(
         sourceCode: String,
-        graphics: Graphics
-    ) = eval(sourceCode.toScriptSource(), graphics)
+        graphics: Graphics,
+        mainScope: CoroutineScope
+    ) = eval(sourceCode.toScriptSource(), graphics, mainScope)
 }
