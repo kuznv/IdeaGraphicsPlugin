@@ -15,8 +15,7 @@ intellij {
 
     setPlugins(
         "gradle",
-        "org.jetbrains.kotlin:1.3.61-release-IJ2019.3-1",
-        "IdeaVIM:0.54"
+        "org.jetbrains.kotlin:1.3.61-release-IJ2019.3-1"
     )
 }
 
