@@ -6,6 +6,7 @@ plugins {
 dependencies {
     api(project(":graphics"))
     api(kotlin("scripting-common"))
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:+")
 
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))

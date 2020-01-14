@@ -1,13 +1,9 @@
 package graphics.scripting.host
 
 import graphics.scripting.GraphicsScript
-import graphics.scripting.SomeClass
 import kotlinx.coroutines.CoroutineScope
 import java.awt.Graphics
-import kotlin.script.experimental.api.EvaluationResult
-import kotlin.script.experimental.api.ResultWithDiagnostics
-import kotlin.script.experimental.api.SourceCode
-import kotlin.script.experimental.api.constructorArgs
+import kotlin.script.experimental.api.*
 import kotlin.script.experimental.host.toScriptSource
 import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
 
@@ -28,8 +24,8 @@ class GraphicsScriptHost {
         scriptingHost.evalWithTemplate<GraphicsScript>(
             sourceCode,
             evaluation = {
-                constructorArgs(graphics, SomeTestClass())
-                //implicitReceivers(graphics)
+                constructorArgs(graphics, mainScope)
+                implicitReceivers(graphics)
             }
         )
 

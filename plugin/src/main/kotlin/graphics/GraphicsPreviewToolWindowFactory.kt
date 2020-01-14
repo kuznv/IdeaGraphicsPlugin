@@ -17,6 +17,7 @@ import com.intellij.psi.impl.PsiManagerEx
 import com.intellij.ui.content.ContentFactory
 import com.intellij.ui.layout.panel
 import com.intellij.util.messages.MessageBusConnection
+import graphics.scripting.GraphicsScript
 import graphics.scripting.fileExtension
 import graphics.scripting.host.GraphicsScriptHost
 import graphics.swing.withGraphics
@@ -115,9 +116,11 @@ private class GraphicsPreview(val project: Project) {
 
         ProgressManager.getInstance().executeNonCancelableSection {
             val newImage =
-                withGraphics(dimension.width, dimension.height) { graphicsDsl ->
-                    val result = graphicsHost.eval(text, graphicsDsl, coroutineScope)
-                    println(result)
+                withContextClassLoader(GraphicsScript::class.java.classLoader) {
+                    withGraphics(dimension.width, dimension.height) { graphicsDsl ->
+                        val result = graphicsHost.eval(text, graphicsDsl, coroutineScope)
+                        println(result)
+                    }
                 }
 
             invokeLater {
@@ -149,3 +152,13 @@ private class GraphicsPreview(val project: Project) {
 
 private fun invokeLater(block: () -> Unit) =
     ApplicationManager.getApplication().invokeLater(block)
+
+private inline fun <T> withContextClassLoader(classLoader: ClassLoader, block: () -> T): T {
+    val previous = Thread.currentThread().contextClassLoader
+    Thread.currentThread().contextClassLoader = classLoader
+    try {
+        return block()
+    } finally {
+        Thread.currentThread().contextClassLoader = previous
+    }
+}
