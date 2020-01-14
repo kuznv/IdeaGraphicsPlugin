@@ -30,6 +30,6 @@ object TurtleScriptCompilationConfiguration : ScriptCompilationConfiguration({
     }
 
     defaultImports(
-        java.awt.Color::class
+        "java.awt.Color.*"
     )
 })
